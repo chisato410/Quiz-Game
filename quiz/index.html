@@ -17,7 +17,7 @@
         letter-spacing: 0.024em;
         color: #191919;
         background-color: #fffefe;
-        padding-bottom: 60px; /* footerの高さ分確保 */
+        padding-bottom: 60px;
       }
 
       .inner {
@@ -241,14 +241,13 @@
               judgement = "○";
             } else {
               judgement = "×";
+              missDate.push({
+                question: quizNumData.question,
+                answer: quizNumData.choices[quizNumData.answer],
+                selected: value,
+                judgement: judgement,
+              });
             }
-
-            missDate.push({
-              question: quizNumData.question,
-              answer: quizNumData.choices[quizNumData.answer],
-              selected: value,
-              judgement: judgement,
-            });
 
             quizNum++;
 
@@ -262,20 +261,22 @@
               scoreTitle.textContent = `あなたのスコアは ${score} / ${maximum} です`;
               container.appendChild(scoreTitle);
 
-              const result = document.createElement("div");
-              const missTitle = document.createElement("h3");
-              missTitle.classList.add("missTitle");
-              missTitle.textContent = "間違えた問題";
-              result.appendChild(missTitle);
+              if (missDate.length > 0) {
+                const result = document.createElement("div");
+                const missTitle = document.createElement("h3");
+                missTitle.classList.add("missTitle");
+                missTitle.textContent = "間違えた問題";
+                result.appendChild(missTitle);
 
-              missDate.forEach((ereata) => {
-                const missItem = document.createElement("p");
-                missItem.classList.add("missItem");
-                missItem.textContent = `${ereata.question} - 正解: ${ereata.answer}, あなたの選択: ${ereata.selected}, 判定: ${ereata.judgement}`;
-                result.appendChild(missItem);
-              });
+                missDate.forEach((ereata) => {
+                  const missItem = document.createElement("p");
+                  missItem.classList.add("missItem");
+                  missItem.textContent = `${ereata.question} - 正解: ${ereata.answer}, あなたの選択: ${ereata.selected}, 判定: ${ereata.judgement}`;
+                  result.appendChild(missItem);
+                });
 
-              container.appendChild(result);
+                container.appendChild(result);
+              }
 
               const restart = document.createElement("button");
               restart.classList.add("restartBtn");
