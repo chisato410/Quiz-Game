@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>3択クイズ</title>
+  </head>
+
+  <body>
+    <script>
+      // クイズのデータ
+      const quizData = [
+        {
+          question: "HTMLとは何の略ですか？",
+          choices: {
+            a: "Hyper Text Markup Language",
+            b: "High Transfer Machine Language",
+            c: "Hyperlink and Text Modeling Language",
+          },
+          answer: "a",
+        },
+        {
+          question: "CSSとは何の略ですか？",
+          choices: {
+            a: "Cascading Style Sheets",
+            b: "Computer Style Syntax",
+            c: "Color Sheet Script",
+          },
+          answer: "a",
+        },
+        {
+          question: "JSONとは何の略ですか？",
+          choices: {
+            a: "Java Script Object Notation",
+            b: "Java Serialized Object Name",
+            c: "Java Source Output Network",
+          },
+          answer: "a",
+        },
+      ];
+
+      // 変数の宣言
+      let quizNum = 0; // 現在のクイズ番号
+      let score = 0; // スコア
+
+      // 要素の作成
+      const container = document.createElement("div");
+      container.classList.add("container");
+      document.body.appendChild(container);
+
+      // クイズの表示
+      const displayQuiz = () => {
+        container.innerHTML = ""; // コンテナをクリア
+
+        // 現在のクイズデータ
+        const quizNumData = quizData[quizNum];
+
+        // 問題文をh2に入れる
+        const quiz = document.createElement("h2");
+        quiz.textContent = quizNumData.question;
+        container.appendChild(quiz);
+
+        // 選択肢の作成
+        const choicesWrap = document.createElement("div");
+        for (const [key, value] of Object.entries(quizNumData.choices)) {
+          const btn = document.createElement("button");
+          btn.textContent = value;
+          btn.setAttribute("name", "answer");
+          btn.setAttribute("value", key);
+
+          // btnイベント
+          btn.addEventListener("click", () => {
+            if (key === quizNumData.answer) {
+              score++;
+            }
+            quizNum++;
+
+            if (quizNum < quizData.length) {
+              displayQuiz();
+            } else {
+              // 全問終わったらscoreの表示
+              container.innerHTML = `<h2>あなたのスコアは ${score} / ${quizData.length}</h2>`;
+              // 再挑戦
+              const restart = document.createElement("button");
+              restart.textContent = "再挑戦";
+              restart.addEventListener("click", () => {
+                quizNum = 0;
+                score = 0;
+                displayQuiz();
+              });
+              container.append(restart);
+            }
+          });
+          container.append(btn);
+        }
+        container.append(choicesWrap);
+      };
+
+      displayQuiz();
+    </script>
+  </body>
+</html>
