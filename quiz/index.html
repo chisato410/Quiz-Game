@@ -117,6 +117,7 @@
               restart.addEventListener("click", () => {
                 quizNum = 0;
                 score = 0;
+                shuffledData = shuffle([...quizData]); //再シャッフル
                 displayQuiz();
               });
               container.append(restart);
