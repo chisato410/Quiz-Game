@@ -8,7 +8,6 @@
 
   <body>
     <script>
-      // クイズのデータ
       const quizData = [
         {
           question: "HTMLとは何の略ですか？",
@@ -57,41 +56,33 @@
         },
       ];
 
-      // 変数の宣言
-      let quizNum = 0; // 現在のクイズ番号
-      let score = 0; // スコア
-      const maximum = 3; // ３問出題
+      let quizNum = 0;
+      let score = 0;
+      const maximum = 3;
+      let missDate = [];
 
-      // シャッフル
       const shuffle = (array) => {
         for (let i = array.length - 1; i > 0; i--) {
           let j = Math.floor(Math.random() * (i + 1));
           [array[i], array[j]] = [array[j], array[i]];
         }
-
         return array;
       };
 
       let shuffledData = shuffle([...quizData]);
 
-      // 要素の作成
       const container = document.createElement("div");
       container.classList.add("container");
       document.body.appendChild(container);
 
-      // クイズの表示
       const displayQuiz = () => {
-        container.innerHTML = ""; // コンテナをクリア
+        container.innerHTML = "";
 
-        // 現在のクイズデータ
         const quizNumData = shuffledData[quizNum];
-
-        // 問題文をh2に入れる
         const quiz = document.createElement("h2");
         quiz.textContent = quizNumData.question;
         container.appendChild(quiz);
 
-        // 選択肢の作成
         const choicesWrap = document.createElement("div");
         for (const [key, value] of Object.entries(quizNumData.choices)) {
           const btn = document.createElement("button");
@@ -99,33 +90,55 @@
           btn.setAttribute("name", "answer");
           btn.setAttribute("value", key);
 
-          // btnイベント
           btn.addEventListener("click", () => {
+            let judgement = "";
             if (key === quizNumData.answer) {
               score++;
+              judgement = "○";
+            } else {
+              judgement = "×";
             }
+
+            missDate.push({
+              question: quizNumData.question,
+              answer: quizNumData.choices[quizNumData.answer],
+              selected: value,
+              judgement: judgement,
+            });
+
             quizNum++;
 
             if (quizNum < maximum) {
               displayQuiz();
             } else {
-              // 全問終わったらscoreの表示
-              container.innerHTML = `<h2>あなたのスコアは ${score} / ${maximum}</h2>`;
-              // 再挑戦
+              container.innerHTML = `<h2>あなたのスコアは ${score} / ${maximum} です</h2>`;
+              const result = document.createElement("div");
+              result.innerHTML = "<h3>間違えた問題</h3>";
+
+              missDate.forEach((ereata) => {
+                const missItem = document.createElement("p");
+                missItem.textContent = `${ereata.question} - 正解: ${ereata.answer}, あなたの選択: ${ereata.selected}, 判定: ${ereata.judgement}`;
+                result.appendChild(missItem);
+              });
+
+              container.appendChild(result);
+
               const restart = document.createElement("button");
               restart.textContent = "再挑戦";
               restart.addEventListener("click", () => {
                 quizNum = 0;
                 score = 0;
-                shuffledData = shuffle([...quizData]); //再シャッフル
+                missDate = [];
+                shuffledData = shuffle([...quizData]);
                 displayQuiz();
               });
-              container.append(restart);
+              container.appendChild(restart);
             }
           });
-          container.append(btn);
+
+          choicesWrap.appendChild(btn); // ← 修正
         }
-        container.append(choicesWrap);
+        container.appendChild(choicesWrap);
       };
 
       displayQuiz();
