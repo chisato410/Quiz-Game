@@ -1,0 +1,40 @@
+@charset "utf-8";
+
+body {
+  font-family: sans-serif;
+  background: #fff;
+  margin: 0;
+  padding: 0;
+  color: #000;
+}
+
+header,
+footer {
+  background: #eee;
+  padding: 1em;
+  text-align: center;
+}
+
+main {
+  padding: 1em;
+  max-width: 600px;
+  margin: auto;
+}
+
+button {
+  background: #607d8b;
+  color: #fff;
+  border: none;
+  padding: 1em;
+  margin: 0.5em 0;
+  cursor: pointer;
+  width: 100%;
+}
+
+button:hover {
+  opacity: 0.9;
+}
+
+h2 {
+  margin-top: 0;
+}
