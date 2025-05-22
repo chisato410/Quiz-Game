@@ -75,7 +75,10 @@ const displayQuiz = () => {
   container.appendChild(quiz);
 
   const choicesWrap = document.createElement("div");
-  for (const [key, value] of Object.entries(quizNumData.choices)) {
+  const choicesArray = Object.entries(quizNumData.choices);
+  const shuffledChoices = shuffle(choicesArray); // 選択肢のシャッフル
+
+  for (const [key, value] of shuffledChoices) {
     const btn = document.createElement("button");
     btn.textContent = value;
     btn.setAttribute("name", "answer");
@@ -141,6 +144,7 @@ const displayQuiz = () => {
 
     choicesWrap.appendChild(btn);
   }
+
   container.appendChild(choicesWrap);
 };
 
