@@ -1,130 +1,147 @@
-const app = document.getElementById("app");
-
 const quizData = [
-  { q: "日本の首都は？", a: "東京" },
-  { q: "富士山の標高は？", a: "3776" },
-  { q: "りんごは英語で？", a: "apple" },
-  { q: "3×4は？", a: "12" },
-  { q: "地球は何番目の惑星？", a: "3" },
+  {
+    question: "HTMLとは何の略ですか？",
+    choices: {
+      a: "Hyper Text Markup Language",
+      b: "High Transfer Machine Language",
+      c: "Hyperlink and Text Modeling Language",
+    },
+    answer: "a",
+  },
+  {
+    question: "CSSとは何の略ですか？",
+    choices: {
+      a: "Cascading Style Sheets",
+      b: "Computer Style Syntax",
+      c: "Color Sheet Script",
+    },
+    answer: "a",
+  },
+  {
+    question: "JSONとは何の略ですか？",
+    choices: {
+      a: "Java Script Object Notation",
+      b: "Java Serialized Object Name",
+      c: "Java Source Output Network",
+    },
+    answer: "a",
+  },
+  {
+    question: "UIとは何の略ですか？",
+    choices: {
+      a: "User Interface",
+      b: "Unified Integration",
+      c: "Universal Interaction",
+    },
+    answer: "a",
+  },
+  {
+    question: "UXとは何の略ですか？",
+    choices: {
+      a: "User Experience",
+      b: "Unified Example",
+      c: "Universal Explosion",
+    },
+    answer: "a",
+  },
 ];
 
-let shuffledQuiz = [];
-let currentIndex = 0;
-let correctCount = 0;
-let incorrectAnswers = [];
-let timer = null;
-let timeLeft = 20;
-let mode = "normal";
+let quizNum = 0;
+let score = 0;
+const maximum = 3;
+let missDate = [];
 
-function shuffleArray(array) {
-  return array.slice().sort(() => Math.random() - 0.5);
-}
-
-function showMenu() {
-  app.innerHTML = `
-    <h2>モード選択</h2>
-    <button onclick="startQuiz('normal')">通常モード</button>
-    <button onclick="startQuiz('timeAttack')">タイムアタック</button>
-  `;
-}
-
-function startQuiz(selectedMode) {
-  mode = selectedMode;
-  shuffledQuiz = shuffleArray(quizData);
-  currentIndex = 0;
-  correctCount = 0;
-  incorrectAnswers = [];
-  if (mode === "timeAttack") {
-    timeLeft = 20;
-    startTimer();
+const shuffle = (array) => {
+  for (let i = array.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
   }
-  showQuestion();
-}
+  return array;
+};
 
-function startTimer() {
-  timer = setInterval(() => {
-    timeLeft--;
-    if (timeLeft <= 0) {
-      clearInterval(timer);
-      showResult();
-    } else {
-      updateTimerDisplay();
-    }
-  }, 1000);
-}
+let shuffledData = shuffle([...quizData]);
 
-function updateTimerDisplay() {
-  const timerDiv = document.getElementById("timer");
-  if (timerDiv) timerDiv.textContent = `残り時間: ${timeLeft}秒`;
-}
+const container = document.createElement("div");
+container.classList.add("container");
+document.querySelector("#inner").appendChild(container);
 
-function showQuestion() {
-  if (mode === "timeAttack" && timeLeft <= 0) return;
+const displayQuiz = () => {
+  container.innerHTML = "";
 
-  if (currentIndex >= shuffledQuiz.length) {
-    if (mode === "timeAttack") {
-      // タイムアタック中でもクイズが尽きたら終わり
-      clearInterval(timer);
-    }
-    showResult();
-    return;
-  }
+  const quizNumData = shuffledData[quizNum];
+  const quiz = document.createElement("h2");
+  quiz.classList.add("question");
+  quiz.textContent = quizNumData.question;
+  container.appendChild(quiz);
 
-  const current = shuffledQuiz[currentIndex];
-  app.innerHTML = `
-    ${
-      mode === "timeAttack"
-        ? `<div id="timer">残り時間: ${timeLeft}秒</div>`
-        : ""
-    }
-    <h2>Q${currentIndex + 1}: ${current.q}</h2>
-    <input type="text" id="answer" placeholder="答えを入力" />
-    <button onclick="submitAnswer()">回答する</button>
-  `;
-}
+  const choicesWrap = document.createElement("div");
+  for (const [key, value] of Object.entries(quizNumData.choices)) {
+    const btn = document.createElement("button");
+    btn.textContent = value;
+    btn.setAttribute("name", "answer");
+    btn.setAttribute("value", key);
 
-function submitAnswer() {
-  const input = document.getElementById("answer");
-  const userAnswer = input.value.trim();
-  const correctAnswer = shuffledQuiz[currentIndex].a;
+    btn.addEventListener("click", () => {
+      let judgement = "";
+      if (key === quizNumData.answer) {
+        score++;
+        judgement = "○";
+      } else {
+        judgement = "×";
+        missDate.push({
+          question: quizNumData.question,
+          answer: quizNumData.choices[quizNumData.answer],
+          selected: value,
+          judgement: judgement,
+        });
+      }
 
-  if (userAnswer.toLowerCase() === correctAnswer.toLowerCase()) {
-    correctCount++;
-  } else {
-    incorrectAnswers.push({
-      q: shuffledQuiz[currentIndex].q,
-      your: userAnswer,
-      correct: correctAnswer,
+      quizNum++;
+
+      if (quizNum < maximum) {
+        displayQuiz();
+      } else {
+        container.innerHTML = "";
+
+        const scoreTitle = document.createElement("h2");
+        scoreTitle.classList.add("scoreTitle");
+        scoreTitle.textContent = `あなたのスコアは ${score} / ${maximum} です`;
+        container.appendChild(scoreTitle);
+
+        if (missDate.length > 0) {
+          const result = document.createElement("div");
+          const missTitle = document.createElement("h3");
+          missTitle.classList.add("missTitle");
+          missTitle.textContent = "間違えた問題";
+          result.appendChild(missTitle);
+
+          missDate.forEach((ereata) => {
+            const missItem = document.createElement("p");
+            missItem.classList.add("missItem");
+            missItem.textContent = `${ereata.question} - 正解: ${ereata.answer}, あなたの選択: ${ereata.selected}, 判定: ${ereata.judgement}`;
+            result.appendChild(missItem);
+          });
+
+          container.appendChild(result);
+        }
+
+        const restart = document.createElement("button");
+        restart.classList.add("restartBtn");
+        restart.textContent = "再挑戦";
+        restart.addEventListener("click", () => {
+          quizNum = 0;
+          score = 0;
+          missDate = [];
+          shuffledData = shuffle([...quizData]);
+          displayQuiz();
+        });
+        container.appendChild(restart);
+      }
     });
+
+    choicesWrap.appendChild(btn);
   }
+  container.appendChild(choicesWrap);
+};
 
-  currentIndex++;
-  showQuestion();
-}
-
-function showResult() {
-  clearInterval(timer);
-  let html = `
-    <h2>結果</h2>
-    <p>正解数: ${correctCount} / ${shuffledQuiz.length}</p>
-    ${incorrectAnswers.length ? "<h3>間違えた問題:</h3>" : ""}
-    <ul>
-      ${incorrectAnswers
-        .map(
-          (item) => `
-        <li>
-          <strong>${item.q}</strong><br>
-          あなたの答え: ${item.your}<br>
-          正解: ${item.correct}
-        </li>
-      `
-        )
-        .join("")}
-    </ul>
-    <button onclick="showMenu()">メニューに戻る</button>
-  `;
-  app.innerHTML = html;
-}
-
-// 初期表示
-showMenu();
+displayQuiz();

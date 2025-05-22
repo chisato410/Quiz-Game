@@ -1,40 +1,123 @@
 @charset "utf-8";
 
 body {
-  font-family: sans-serif;
-  background: #fff;
-  margin: 0;
-  padding: 0;
-  color: #000;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  font-weight: normal;
+  line-height: 1.6;
+  letter-spacing: 0.024em;
+  color: #191919;
+  background-color: #fffefe;
+  padding-bottom: 60px;
 }
 
-header,
+.inner {
+  margin-inline: 100px;
+}
+
+header {
+  background-color: #a1a3b4;
+  padding: 20px 0;
+  margin-bottom: 30px;
+}
+
 footer {
-  background: #eee;
-  padding: 1em;
-  text-align: center;
-}
-
-main {
-  padding: 1em;
-  max-width: 600px;
-  margin: auto;
-}
-
-button {
-  background: #607d8b;
-  color: #fff;
-  border: none;
-  padding: 1em;
-  margin: 0.5em 0;
-  cursor: pointer;
+  background-color: #bca3af;
+  padding: 10px 0;
+  position: fixed;
+  bottom: 0;
+  left: 0;
   width: 100%;
 }
 
-button:hover {
-  opacity: 0.9;
+small {
+  display: block;
+  text-align: right;
+}
+
+h1 {
+  font-size: 23px;
+  font-weight: bold;
+  color: #fff9f9;
 }
 
 h2 {
-  margin-top: 0;
+  font-size: 22px;
+  margin-bottom: 20px;
+}
+
+.question {
+  background: linear-gradient(transparent 50%, #e6d4cb 50%);
+  margin-bottom: 40px;
+}
+
+.question::before {
+  content: "Q. ";
+  font-weight: bold;
+  color: #b1a9b9;
+  margin-right: 0.3em;
+}
+
+button[name="answer"] {
+  display: block;
+  width: 100%;
+  max-width: 400px;
+  margin: 10px auto;
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+  background-color: #f0f0f5;
+  border: 2px solid #a1a3b4;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+button[name="answer"]:hover {
+  background-color: #a1a3b4;
+  color: #fff;
+}
+
+button[name="answer"]:active {
+  background-color: #7a7c8d;
+  transform: scale(0.98);
+}
+
+.restartBtn {
+  background-color: #d5b7b6;
+  color: #ffffff;
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.restartBtn:hover {
+  background-color: #bfa5a4;
+  transform: scale(1.05);
+}
+
+.scoreTitle {
+  font-size: 22px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.missTitle {
+  font-size: 18px;
+  color: #b14444;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.missItem {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 8px;
 }

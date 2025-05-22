@@ -3,22 +3,30 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>クイズアプリ</title>
-    <link rel="stylesheet" href="style.css" />
+    <title>3択クイズ</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/the-new-css-reset/css/reset.min.css"
+    />
+    <link rel="stylesheet" href="./style.css" />
+    <script src="./script.js" defer></script>
   </head>
+
   <body>
     <header>
-      <h1>クイズアプリ</h1>
+      <div class="inner">
+        <h1>３択クイズ</h1>
+      </div>
     </header>
 
-    <main id="app">
-      <!-- ここに画面が切り替わって表示されます -->
+    <main>
+      <div id="inner" class="inner"></div>
     </main>
 
     <footer>
-      <p>&copy; 2025 Quiz App</p>
+      <div class="inner">
+        <small>&copy;Machino</small>
+      </div>
     </footer>
-
-    <script src="script.js"></script>
   </body>
 </html>
