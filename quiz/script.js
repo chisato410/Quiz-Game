@@ -91,6 +91,7 @@ const displayQuiz = () => {
   container.appendChild(quiz);
 
   const choicesWrap = document.createElement("div");
+  choicesWrap.classList.add("choicesWrap");
   const choicesArray = Object.entries(quizNumData.choices);
   const shuffledChoices = shuffle(choicesArray);
 
@@ -139,6 +140,7 @@ const showResult = () => {
     const missWrap = document.createElement("div");
     const missTitle = document.createElement("h3");
     missTitle.textContent = "間違えた問題";
+    missTitle.classList.add("missTitle");
     missWrap.appendChild(missTitle);
 
     missDate.forEach((item) => {
