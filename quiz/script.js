@@ -451,7 +451,7 @@ const showResult = () => {
 // ==============================
 
 const showHistory = () => {
-  container.innerHTML = "<h2>スコア履歴</h2>";
+  container.innerHTML = '<h2 class="scoreHistoryTitle">スコア履歴</h2>';
   const history = JSON.parse(localStorage.getItem("scoreHistory") || "[]");
 
   if (history.length === 0) {
@@ -460,6 +460,7 @@ const showHistory = () => {
     history.forEach((item) => {
       const p = document.createElement("p");
       p.textContent = `${item.date} - スコア: ${item.score}/${item.total} (${item.mode})`;
+      p.classList.add("historyEntry"); // ← クラス追加
       container.appendChild(p);
     });
   }
@@ -470,7 +471,6 @@ const showHistory = () => {
   backBtn.addEventListener("click", showMenu);
   container.appendChild(backBtn);
 };
-
 // ==============================
 // アプリ起動時の初期表示
 // ==============================
