@@ -239,3 +239,193 @@ button.backMenuBtn:hover {
   background: #4caf50;
   transition: width 0.3s;
 }
+
+/* 正誤アニメーション */
+.correct {
+  background-color: #4caf50 !important;
+  color: #fff !important;
+}
+
+.incorrect {
+  background-color: #f44336 !important;
+  color: #fff !important;
+}
+
+.countdown {
+  font-size: 48px;
+  font-weight: bold;
+  color: #555;
+  animation: zoom 0.8s ease-in-out;
+}
+
+@keyframes zoom {
+  0% {
+    transform: scale(0.3);
+    opacity: 0.2;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.historyWrap {
+  margin-top: 20px;
+  padding: 10px;
+  background: #f5f5f5;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.historyItem {
+  font-size: 14px;
+  color: #444;
+  padding: 4px 0;
+  border-bottom: 1px solid #ddd;
+}
+.historyItem:last-child {
+  border-bottom: none;
+}
+
+.historyBtn {
+  position: fixed;
+  bottom: 50px; /* 画面下からの距離 */
+  right: 0;
+  transform: translateX(-50%);
+  padding: 10px 20px;
+  font-size: 18px;
+  background-color: #6598ce; /* ボタンの背景色 */
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  z-index: 1000; /* 他要素より上に表示 */
+  transition: background-color 0.3s ease;
+}
+
+.historyBtn:hover {
+  background-color: #395573; /* ホバー時の色 */
+}
+
+/* フォーム全体のスタイル */
+form {
+  background-color: #fff;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+  margin: 0 auto;
+  font-family: "Helvetica Neue", sans-serif;
+}
+
+/* 各フォームグループ */
+.form-group {
+  margin-bottom: 16px;
+}
+
+/* ラベルのスタイル */
+.form-group label {
+  display: flex;
+  flex-direction: column;
+  font-weight: bold;
+  color: #333;
+  font-size: 16px;
+}
+
+/* 入力フィールドとセレクトボックスのスタイル */
+.form-group input[type="text"],
+.form-group select {
+  margin-top: 8px;
+  padding: 10px;
+  font-size: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  transition: border-color 0.2s;
+}
+
+.form-group input[type="text"]:focus,
+.form-group select:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+/* ボタンのスタイル */
+button {
+  padding: 10px 20px;
+  font-size: 15px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-right: 10px;
+  transition: background-color 0.2s;
+}
+
+/* 保存ボタン */
+button[type="submit"] {
+  background-color: #6cbb7e;
+  color: #fff;
+}
+
+button[type="submit"]:hover {
+  background-color: rgb(27, 109, 45);
+}
+
+/* キャンセルボタン */
+button[type="button"] {
+  background-color: #ef5a69;
+  color: white;
+}
+
+button[type="button"]:hover {
+  background-color: rgb(172, 30, 44);
+}
+
+.quizItem {
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 1em;
+  margin-bottom: 1em;
+  background-color: #f9f9f9;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s;
+}
+
+.quizItem:hover {
+  transform: scale(1.01);
+}
+
+.quizItem p {
+  font-weight: bold;
+  margin-bottom: 0.5em;
+}
+
+.quizItem button {
+  margin-right: 0.5em;
+  padding: 0.4em 0.8em;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9em;
+  transition: background-color 0.2s;
+}
+
+.quizItem button:first-of-type {
+  background-color: #4caf50; /* 編集ボタン: 緑 */
+  color: white;
+}
+
+.quizItem button:first-of-type:hover {
+  background-color: #45a049;
+}
+
+.quizItem button:last-of-type {
+  background-color: #f44336; /* 削除ボタン: 赤 */
+  color: white;
+}
+
+.quizItem button:last-of-type:hover {
+  background-color: #d32f2f;
+}
