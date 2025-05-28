@@ -1,3 +1,6 @@
+/* ==========================
+   基本スタイル
+   ========================== */
 @charset "utf-8";
 
 body {
@@ -42,6 +45,9 @@ small {
   text-align: right;
 }
 
+/* ==========================
+      見出し
+      ========================== */
 h1 {
   font-size: 23px;
   font-weight: bold;
@@ -54,6 +60,9 @@ h2 {
   color: #333;
 }
 
+/* ==========================
+      クイズ表示部分
+      ========================== */
 .question {
   background: linear-gradient(transparent 50%, #e6d4cb 50%);
   margin-bottom: 40px;
@@ -68,17 +77,22 @@ h2 {
   margin-right: 0.3em;
 }
 
+/* ==========================
+      ボタン（共通）
+      ========================== */
 button {
-  padding: 12px 20px;
-  font-size: 16px;
-  font-weight: bold;
+  padding: 10px 20px;
+  font-size: 15px;
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  transition: all 0.3s ease;
+  margin-right: 10px;
+  transition: background-color 0.2s;
 }
 
-/* 選択肢ボタン（クイズ用） */
+/* ==========================
+      クイズ選択肢ボタン
+      ========================== */
 .choicesWrap button {
   display: block;
   width: 100%;
@@ -92,7 +106,6 @@ button {
   border: 2px solid #b0b2c0;
   border-radius: 10px;
   box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.08);
-  cursor: pointer;
   transition: all 0.25s ease-in-out;
 }
 
@@ -110,72 +123,30 @@ button {
   transform: scale(0.98);
   box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.2);
 }
+
+/* ==========================
+      スタート・再挑戦・戻るボタン
+      ========================== */
+.start,
 .restartBtn,
 .backMenuBtn {
-  background-color: #d5b7b6;
-  color: #ffffff;
+  font-weight: bold;
+  font-size: 16px;
   padding: 12px 24px;
   border: none;
   border-radius: 8px;
-  font-weight: bold;
-  font-size: 16px;
   cursor: pointer;
-  margin-top: 20px;
   transition: background-color 0.3s ease, transform 0.2s ease;
   display: inline-block;
   margin: 10px;
 }
 
-.restartBtn:hover,
-.backMenuBtn:hover {
-  background-color: #bfa5a4;
-  transform: scale(1.05);
-}
-
-.scoreTitle {
-  font-size: 22px;
-  font-weight: bold;
-  color: #333;
-  margin-bottom: 15px;
-}
-
-.missTitle {
-  font-size: 18px;
-  color: #b14444;
-  margin-top: 20px;
-  margin-bottom: 10px;
-}
-
-.missItem {
-  font-size: 14px;
-  color: #555;
-  margin-bottom: 8px;
-}
-
-button.backMenuBtn {
-  background-color: #aaa5b0;
-}
-
-button.backMenuBtn:hover {
-  background-color: #918c98;
-}
-
-/* startボタン */
-/* スタートボタン用スタイル */
 .start {
-  display: inline-block;
-  padding: 16px 40px;
-  font-size: 20px;
-  font-weight: bold;
-  color: #fff;
   background: #abb2cf;
-  border: none;
-  border-radius: 12px;
+  color: #fff;
+  font-size: 20px;
+  padding: 16px 40px;
   box-shadow: 0 6px 12px rgba(186, 196, 234, 0.6);
-  cursor: pointer;
-  transition: background 0.3s ease, transform 0.2s ease;
-  margin-top: 30px;
-  margin-right: 20px;
   margin: 30px 20px 0 0;
 }
 
@@ -191,7 +162,36 @@ button.backMenuBtn:hover {
   box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
-/* 「間違えた問題」タイトル */
+.restartBtn {
+  background-color: #d5b7b6;
+  color: #ffffff;
+}
+
+.restartBtn:hover {
+  background-color: #bfa5a4;
+  transform: scale(1.05);
+}
+
+.backMenuBtn {
+  background-color: #aaa5b0;
+  color: #ffffff;
+}
+
+.backMenuBtn:hover {
+  background-color: #918c98;
+  transform: scale(1.05);
+}
+
+/* ==========================
+      スコア・間違い表示
+      ========================== */
+.scoreTitle {
+  font-size: 22px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 15px;
+}
+
 .missTitle {
   font-size: 20px;
   font-weight: bold;
@@ -200,7 +200,6 @@ button.backMenuBtn:hover {
   padding-left: 10px;
 }
 
-/* 各間違い項目 */
 .missItem {
   background-color: #fdf3f3;
   border: 1px solid #e0b4b4;
@@ -213,13 +212,15 @@ button.backMenuBtn:hover {
   line-height: 1.5;
 }
 
-/* 正解部分だけ色強調したい場合 */
 .missItem::before {
   content: "✖ ";
   color: #d33;
   font-weight: bold;
 }
 
+/* ==========================
+      プログレスバー
+      ========================== */
 .statusBar {
   display: flex;
   flex-direction: column;
@@ -234,13 +235,16 @@ button.backMenuBtn:hover {
   border-radius: 5px;
   overflow: hidden;
 }
+
 .progressBar {
   height: 100%;
   background: #4caf50;
   transition: width 0.3s;
 }
 
-/* 正誤アニメーション */
+/* ==========================
+      正誤アニメーション
+      ========================== */
 .correct {
   background-color: #4caf50 !important;
   color: #fff !important;
@@ -251,6 +255,9 @@ button.backMenuBtn:hover {
   color: #fff !important;
 }
 
+/* ==========================
+      カウントダウン演出
+      ========================== */
 .countdown {
   font-size: 48px;
   font-weight: bold;
@@ -272,6 +279,9 @@ button.backMenuBtn:hover {
   }
 }
 
+/* ==========================
+      解答履歴ボタンと履歴表示
+      ========================== */
 .historyWrap {
   margin-top: 20px;
   padding: 10px;
@@ -286,31 +296,34 @@ button.backMenuBtn:hover {
   padding: 4px 0;
   border-bottom: 1px solid #ddd;
 }
+
 .historyItem:last-child {
   border-bottom: none;
 }
 
 .historyBtn {
   position: fixed;
-  bottom: 50px; /* 画面下からの距離 */
+  bottom: 50px;
   right: 0;
   transform: translateX(-50%);
   padding: 10px 20px;
   font-size: 18px;
-  background-color: #6598ce; /* ボタンの背景色 */
+  background-color: #6598ce;
   color: #fff;
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  z-index: 1000; /* 他要素より上に表示 */
+  z-index: 1000;
   transition: background-color 0.3s ease;
 }
 
 .historyBtn:hover {
-  background-color: #395573; /* ホバー時の色 */
+  background-color: #395573;
 }
 
-/* フォーム全体のスタイル */
+/* ==========================
+      クイズ自作フォーム
+      ========================== */
 form {
   background-color: #fff;
   padding: 24px;
@@ -321,12 +334,10 @@ form {
   font-family: "Helvetica Neue", sans-serif;
 }
 
-/* 各フォームグループ */
 .form-group {
   margin-bottom: 16px;
 }
 
-/* ラベルのスタイル */
 .form-group label {
   display: flex;
   flex-direction: column;
@@ -335,7 +346,6 @@ form {
   font-size: 16px;
 }
 
-/* 入力フィールドとセレクトボックスのスタイル */
 .form-group input[type="text"],
 .form-group select {
   margin-top: 8px;
@@ -352,18 +362,6 @@ form {
   border-color: #007bff;
 }
 
-/* ボタンのスタイル */
-button {
-  padding: 10px 20px;
-  font-size: 15px;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  margin-right: 10px;
-  transition: background-color 0.2s;
-}
-
-/* 保存ボタン */
 button[type="submit"] {
   background-color: #6cbb7e;
   color: #fff;
@@ -373,7 +371,6 @@ button[type="submit"]:hover {
   background-color: rgb(27, 109, 45);
 }
 
-/* キャンセルボタン */
 button[type="button"] {
   background-color: #ef5a69;
   color: white;
@@ -383,6 +380,9 @@ button[type="button"]:hover {
   background-color: rgb(172, 30, 44);
 }
 
+/* ==========================
+      クイズ自作リスト
+      ========================== */
 .quizItem {
   border: 1px solid #ccc;
   border-radius: 10px;
@@ -413,7 +413,7 @@ button[type="button"]:hover {
 }
 
 .quizItem button:first-of-type {
-  background-color: #4caf50; /* 編集ボタン: 緑 */
+  background-color: #4caf50;
   color: white;
 }
 
@@ -422,7 +422,7 @@ button[type="button"]:hover {
 }
 
 .quizItem button:last-of-type {
-  background-color: #f44336; /* 削除ボタン: 赤 */
+  background-color: #f44336;
   color: white;
 }
 

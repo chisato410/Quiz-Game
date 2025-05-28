@@ -1,3 +1,8 @@
+// ==============================
+// 初期データと設定
+// ==============================
+
+// 通常クイズデータ（初期設定）
 const quizData = [
   {
     question: "HTMLとは何の略ですか？",
@@ -46,16 +51,22 @@ const quizData = [
   },
 ];
 
+// クイズ状態の初期化変数
 let quizNum = 0;
 let score = 0;
-const maximum = 3;
+const maximum = 3; // 出題数上限
 let missDate = [];
 let shuffledData = [];
 let isTimeAttack = false;
 let timer = null;
-const timeLimit = 10;
+const timeLimit = 10; // タイムアタック制限時間
 let isCustomMode = false;
 
+// ==============================
+// 共通ユーティリティ
+// ==============================
+
+// 配列をシャッフル（Fisher-Yatesアルゴリズム）
 const shuffle = (array) => {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -64,9 +75,14 @@ const shuffle = (array) => {
   return array;
 };
 
+// クイズ表示用の親コンテナ
 const container = document.createElement("div");
 container.classList.add("container");
 document.querySelector("#inner").appendChild(container);
+
+// ==============================
+// メインメニュー表示
+// ==============================
 
 const showMenu = () => {
   container.innerHTML = "";
@@ -75,6 +91,7 @@ const showMenu = () => {
   title.textContent = "モードを選んでください";
   container.appendChild(title);
 
+  // 通常モード
   const normalBtn = document.createElement("button");
   normalBtn.textContent = "通常モード";
   normalBtn.classList.add("start");
@@ -84,6 +101,7 @@ const showMenu = () => {
   });
   container.appendChild(normalBtn);
 
+  // タイムアタックモード
   const timeAttackBtn = document.createElement("button");
   timeAttackBtn.textContent = "タイムアタックモード";
   timeAttackBtn.classList.add("start");
@@ -93,19 +111,21 @@ const showMenu = () => {
   });
   container.appendChild(timeAttackBtn);
 
+  // 自作クイズ作成
   const createBtn = document.createElement("button");
   createBtn.textContent = "自作クイズを作成";
-  createBtn.classList.add("createBtn");
-  createBtn.classList.add("start");
+  createBtn.classList.add("createBtn", "start");
   createBtn.addEventListener("click", showCreateForm);
   container.appendChild(createBtn);
 
-  const manageBtn = document.createElement("button"); // ← ここが重要
+  // 自作クイズ一覧（編集・削除）
+  const manageBtn = document.createElement("button");
   manageBtn.textContent = "自作クイズ一覧";
   manageBtn.classList.add("start");
   manageBtn.addEventListener("click", showCustomQuizList);
-  container.appendChild(manageBtn); // ← showMenu()の中に配置
+  container.appendChild(manageBtn);
 
+  // スコア履歴
   const historyBtn = document.createElement("button");
   historyBtn.textContent = "スコア履歴を見る";
   historyBtn.classList.add("historyBtn");
@@ -113,24 +133,27 @@ const showMenu = () => {
   container.appendChild(historyBtn);
 };
 
+// ==============================
+// 自作クイズの作成・編集・一覧
+// ==============================
+
 const showCreateForm = () => {
   container.innerHTML = "<h2>クイズを作成</h2>";
 
   const form = document.createElement("form");
   form.innerHTML = `
-        <div class="form-group"><label>問題文:<input type="text" id="question" required /></label></div>
-        <div class="form-group"><label>選択肢A:<input type="text" id="a" required /></label></div>
-        <div class="form-group"><label>選択肢B:<input type="text" id="b" required /></label></div>
-        <div class="form-group"><label>選択肢C:<input type="text" id="c" required /></label></div>
-        <div class="form-group"><label>正解:<select id="answer">
-          <option value="a">A</option>
-          <option value="b">B</option>
-          <option value="c">C</option>
-        </select></label></div>
-        <button type="submit">保存する</button>
-        <button type="button" onclick="showMenu()">キャンセル</button>
-      `;
-
+    <div class="form-group"><label>問題文:<input type="text" id="question" required /></label></div>
+    <div class="form-group"><label>選択肢A:<input type="text" id="a" required /></label></div>
+    <div class="form-group"><label>選択肢B:<input type="text" id="b" required /></label></div>
+    <div class="form-group"><label>選択肢C:<input type="text" id="c" required /></label></div>
+    <div class="form-group"><label>正解:<select id="answer">
+      <option value="a">A</option>
+      <option value="b">B</option>
+      <option value="c">C</option>
+    </select></label></div>
+    <button type="submit">保存する</button>
+    <button type="button" onclick="showMenu()">キャンセル</button>
+  `;
   form.addEventListener("submit", (e) => {
     e.preventDefault();
     const newQuiz = {
@@ -138,7 +161,6 @@ const showCreateForm = () => {
       choices: { a: form.a.value, b: form.b.value, c: form.c.value },
       answer: form.answer.value,
     };
-
     const saved = JSON.parse(localStorage.getItem("customQuizzes") || "[]");
     saved.push(newQuiz);
     localStorage.setItem("customQuizzes", JSON.stringify(saved));
@@ -147,26 +169,6 @@ const showCreateForm = () => {
   });
 
   container.appendChild(form);
-};
-
-const startQuiz = (timeAttack) => {
-  quizNum = 0;
-  score = 0;
-  missDate = [];
-  isTimeAttack = timeAttack;
-
-  const baseData = isCustomMode
-    ? JSON.parse(localStorage.getItem("customQuizzes") || "[]")
-    : quizData;
-
-  if (baseData.length === 0) {
-    alert("自作クイズが見つかりません！");
-    showMenu();
-    return;
-  }
-
-  shuffledData = shuffle([...baseData]);
-  isTimeAttack ? showCountdown(displayQuiz) : displayQuiz();
 };
 
 const showCustomQuizList = () => {
@@ -196,7 +198,7 @@ const showCustomQuizList = () => {
         if (confirm("このクイズを削除しますか？")) {
           quizzes.splice(index, 1);
           localStorage.setItem("customQuizzes", JSON.stringify(quizzes));
-          showCustomQuizList(); // 再描画
+          showCustomQuizList();
         }
       });
       div.appendChild(deleteBtn);
@@ -260,11 +262,29 @@ const showEditForm = (index) => {
   container.appendChild(form);
 };
 
-const manageBtn = document.createElement("button");
-manageBtn.textContent = "自作クイズ一覧";
-manageBtn.classList.add("start");
-manageBtn.addEventListener("click", showCustomQuizList);
-container.appendChild(manageBtn);
+// ==============================
+// クイズ実行・出題・結果表示
+// ==============================
+
+const startQuiz = (timeAttack) => {
+  quizNum = 0;
+  score = 0;
+  missDate = [];
+  isTimeAttack = timeAttack;
+
+  const baseData = isCustomMode
+    ? JSON.parse(localStorage.getItem("customQuizzes") || "[]")
+    : quizData;
+
+  if (baseData.length === 0) {
+    alert("自作クイズが見つかりません！");
+    showMenu();
+    return;
+  }
+
+  shuffledData = shuffle([...baseData]);
+  isTimeAttack ? showCountdown(displayQuiz) : displayQuiz();
+};
 
 const showCountdown = (callback) => {
   container.innerHTML = "";
@@ -272,12 +292,11 @@ const showCountdown = (callback) => {
   countDownEl.classList.add("countdown");
   countDownEl.textContent = "3";
   container.appendChild(countDownEl);
-  let count = 3;
 
+  let count = 3;
   const countdownInterval = setInterval(() => {
     count--;
     countDownEl.textContent = count;
-
     if (count === 0) {
       clearInterval(countdownInterval);
       callback();
@@ -287,9 +306,9 @@ const showCountdown = (callback) => {
 
 const displayQuiz = () => {
   container.innerHTML = "";
-
   const quizNumData = shuffledData[quizNum];
 
+  // プログレスバー
   const progressWrap = document.createElement("div");
   progressWrap.classList.add("progress");
   const progressBar = document.createElement("div");
@@ -298,14 +317,12 @@ const displayQuiz = () => {
   progressWrap.appendChild(progressBar);
   container.appendChild(progressWrap);
 
+  // 問題文表示
   const quiz = document.createElement("h2");
   quiz.textContent = quizNumData.question;
   container.appendChild(quiz);
 
-  const choicesWrap = document.createElement("div");
-  choicesWrap.classList.add("choicesWrap");
-  const shuffledChoices = shuffle(Object.entries(quizNumData.choices));
-
+  // タイマー表示
   let timerDisplay;
   if (isTimeAttack) {
     timerDisplay = document.createElement("p");
@@ -332,12 +349,18 @@ const displayQuiz = () => {
     }, 1000);
   }
 
+  // 選択肢表示
+  const choicesWrap = document.createElement("div");
+  choicesWrap.classList.add("choicesWrap");
+  const shuffledChoices = shuffle(Object.entries(quizNumData.choices));
+
   shuffledChoices.forEach(([key, value]) => {
     const btn = document.createElement("button");
     btn.textContent = value;
     btn.value = key;
     btn.addEventListener("click", () => {
       if (isTimeAttack && timer) clearInterval(timer);
+
       const isCorrect = key === quizNumData.answer;
       btn.classList.add(isCorrect ? "correct" : "incorrect");
       choicesWrap
@@ -372,11 +395,13 @@ const showResult = () => {
   scoreTitle.textContent = `あなたのスコアは ${score} / ${maximum} です`;
   container.appendChild(scoreTitle);
 
+  // 間違えた問題一覧
   if (missDate.length > 0) {
     const missTitle = document.createElement("h3");
     missTitle.textContent = "間違えた問題:";
     missTitle.classList.add("missTitle");
     container.appendChild(missTitle);
+
     missDate.forEach((item) => {
       const p = document.createElement("p");
       p.textContent = `${item.question} - 正解: ${item.answer}, 選択: ${item.selected}`;
@@ -385,6 +410,7 @@ const showResult = () => {
     });
   }
 
+  // 履歴保存
   const now = new Date();
   const record = {
     date: now.toLocaleString(),
@@ -400,6 +426,7 @@ const showResult = () => {
   history.unshift(record);
   localStorage.setItem("scoreHistory", JSON.stringify(history.slice(0, 10)));
 
+  // 再挑戦・戻るボタン
   const retryBtn = document.createElement("button");
   retryBtn.textContent = "もう一度";
   retryBtn.classList.add("restartBtn");
@@ -419,9 +446,14 @@ const showResult = () => {
   container.appendChild(backBtn);
 };
 
+// ==============================
+// スコア履歴の表示
+// ==============================
+
 const showHistory = () => {
   container.innerHTML = "<h2>スコア履歴</h2>";
   const history = JSON.parse(localStorage.getItem("scoreHistory") || "[]");
+
   if (history.length === 0) {
     container.innerHTML += "<p>履歴がありません。</p>";
   } else {
@@ -439,5 +471,7 @@ const showHistory = () => {
   container.appendChild(backBtn);
 };
 
-// 初期表示
+// ==============================
+// アプリ起動時の初期表示
+// ==============================
 showMenu();
