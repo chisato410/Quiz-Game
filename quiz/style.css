@@ -438,8 +438,8 @@ button[type="button"]:hover {
 }
 
 .quizItem button:first-of-type {
-  background-color: #4caf50;
-  color: white;
+  background-color: #6cbb7e;
+  color: #fff;
 }
 
 .quizItem button:first-of-type:hover {
@@ -448,9 +448,9 @@ button[type="button"]:hover {
 
 .quizItem button:last-of-type {
   background-color: #f44336;
-  color: white;
+  color: #fff;
 }
 
 .quizItem button:last-of-type:hover {
-  background-color: #d32f2f;
+  background-color: #b14444;
 }

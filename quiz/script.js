@@ -209,6 +209,7 @@ const showCustomQuizList = () => {
 
   const backBtn = document.createElement("button");
   backBtn.textContent = "メニューに戻る";
+  backBtn.classList.add("backMenuBtn");
   backBtn.addEventListener("click", showMenu);
   container.appendChild(backBtn);
 };
