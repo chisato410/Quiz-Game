@@ -175,6 +175,8 @@ button.backMenuBtn:hover {
   cursor: pointer;
   transition: background 0.3s ease, transform 0.2s ease;
   margin-top: 30px;
+  margin-right: 20px;
+  margin: 30px 20px 0 0;
 }
 
 .start:hover {
@@ -216,4 +218,24 @@ button.backMenuBtn:hover {
   content: "✖ ";
   color: #d33;
   font-weight: bold;
+}
+
+.statusBar {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.progress {
+  width: 100%;
+  height: 10px;
+  background: #eee;
+  border-radius: 5px;
+  overflow: hidden;
+}
+.progressBar {
+  height: 100%;
+  background: #4caf50;
+  transition: width 0.3s;
 }
